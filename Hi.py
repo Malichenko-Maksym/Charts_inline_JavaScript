@@ -1,4 +1,3 @@
-print("HelloWorld!!!!!")
-input()
-print("Hello")
+x = "Hello"
+print(x)
 input()
