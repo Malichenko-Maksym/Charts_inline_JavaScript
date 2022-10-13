@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- chart.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- jquery-->
+    <title>API Project</title>
+</head>
+<body>
+    <header>
+        <h1>API Project</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="linechart.html">Line Chart</a></li>
+                <li><a href="barchart.html"><b>Bar Chart</b></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="bar-container">
+            <img src="load.gif" id="load" alt="load gif">
+            <canvas id="mybarChart"></canvas>
+        </div>
+    
+        <script>
+            // my api https://my.api.mockaroo.com/users.json?key=bc334630
+    
+    
+            var dane = new Object();
+            var parsedDane = new Object();
+    
+            setTimeout(() => {
+                document.getElementById("load").style.display = "none";
+                console.log("minelu 2 sekundy")
+                dane = req.responseText;
+                parsedDane = JSON.parse(dane);
+                console.log(dane)
+                console.log(parsedDane)
+                setTimeout(createChart, 500);
+            }, 2000);
+    
+            /*
+            function listen() {
+                dane = req.responseText;
+                parsedDane = JSON.parse(dane);
+                console.log(dane)
+                console.log(parsedDane)
+                setTimeout(createChart(), 3000);
+            }
+            */
+    
+    
+            function createChart() {
+    
+                var drugPrice1 = parsedDane[1]["price_now"];
+                var drugPriceValue1 = parseFloat(drugPrice1.substr(1), 10);
+                var drugName1 = parsedDane[1]["name"];
+    
+                var drugPrice2 = parsedDane[2]["price_now"].toString();
+                var drugPriceValue2 = parseFloat(drugPrice2.substr(1), 10);
+                var drugName2 = parsedDane[2]["name"].toString();
+    
+                var drugPrice3 = parsedDane[3]["price_now"].toString();
+                var drugPriceValue3 = parseFloat(drugPrice3.substr(1), 10);
+                var drugName3 = parsedDane[3]["name"].toString();
+    
+                var drugPrice4 = parsedDane[4]["price_now"].toString();
+                var drugPriceValue4 = parseFloat(drugPrice4.substr(1), 10);
+                var drugName4 = parsedDane[4]["name"].toString();
+    
+                var drugPrice5 = parsedDane[5]["price_now"].toString();
+                var drugPriceValue5 = parseFloat(drugPrice5.substr(1), 10);
+                var drugName5 = parsedDane[5]["name"].toString();
+    
+                var drugPrice6 = parsedDane[6]["price_now"].toString();
+                var drugPriceValue6 = parseFloat(drugPrice6.substr(1), 10);
+                var drugName6 = parsedDane[6]["name"].toString();
+    
+                var drugPrice7 = parsedDane[7]["price_now"].toString();
+                var drugPriceValue7 = parseFloat(drugPrice7.substr(1), 10);
+                var drugName7 = parsedDane[7]["name"].toString();
+    
+                console.log("tried")
+                console.log(drugPrice1)
+                console.log(drugPriceValue1)
+                console.log(drugName1)
+    
+                const labels = [
+                    drugName1,
+                    drugName2,
+                    drugName3,
+                    drugName4,
+                    drugName5,
+                    drugName6,
+                    drugName7,
+                ];
+    
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Curent price for 100 gram',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [
+                            drugPriceValue1,
+                            drugPriceValue2,
+                            drugPriceValue3,
+                            drugPriceValue4,
+                            drugPriceValue5,
+                            drugPriceValue6,
+                            drugPriceValue7,
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(0, 166, 147, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(0, 166, 147, 1)'
+                        ],
+                        borderWidth: 1
+                    }],
+                };
+    
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                    },
+                };
+    
+                const myChart = new Chart(document.getElementById('mybarChart'), config);
+
+            }
+    
+            var req = new XMLHttpRequest();
+            req.open("GET", "https://my.api.mockaroo.com/users.json?key=a8728170");
+            req.send();
+        </script>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+    <title>API Project</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>API Project</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="linechart.html"><b>Line Chart</b></a></li>
+                <li><a href="barchart.html">Bar Chart</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main style="height: auto; min-height: 55em; ">
+        <div id="formContainer">
+            <form id="myForm">
+                Which row you want to see? <input type="number" value=1 name="item" id="qqq" min=1 max=100>
+                <button id="information" type="button" >Show me!</button>
+            </form>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+        <table id="tabela" >
+            <tr>
+                <th>ID</th>
+                <th>Codename</th>
+                <th>Name</th>
+                <th>Active substance</th>
+                <th>Company</th>
+                <th>Price in 2021</th>
+                <th>Price in 2020</th>
+                <th>Price in 2019</th>
+                <th>Price in 2018</th>
+                <th>Price in 2017</th>
+                <th>Price in 2016</th>
+                <th>Price in 2015</th>
+            </tr>
+        </table>
+        <script>
+            document.getElementById("tabela").style.display = "none";
+        //var chartNum= 0;   
+     const testBody = document.querySelector("#tabela");
+     
+     const labels = [
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021'
+  ];
+                
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Price',
+      //backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(102, 155, 188)',
+      data: [0,0,0,0,0,0,0],
+      fill: true,
+      tension: 0.35,
+      pointHoverBorderWidth: 1.1,
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+   config
+  );
+  
+ 
+  document.getElementById("myChart").style.display = "none";
+  
+  
+    
+    function Information_from_form() {
+            var tekst =$("#qqq").val();
+            document.getElementById("myForm").reset();
+            return tekst;
+    }
+    
+
+   
+    
+    function loadData(){
+        //filip https://my.api.mockaroo.com/to_api.json?key=20612320
+        //andrzej https://my.api.mockaroo.com/users.json?key=a8728170
+        const request = new XMLHttpRequest();
+        request.open("GET", "https://my.api.mockaroo.com/users.json?key=a8728170", true); // request from api
+        request.onload = () =>{
+            try{
+                const json = JSON.parse(request.responseText);
+              
+  var el = document.getElementById("information");
+  el.addEventListener("click", function(){
+    var cyfra =Information_from_form()-1;
+                
+                var k1= json[cyfra]["price_2015"].toString();
+                var q1=parseFloat(k1.substr(1),10);
+                var k2= json[cyfra]["price_2016"].toString();
+                var q2=parseFloat(k2.substr(1),10);
+                var k3= json[cyfra]["price_2017"].toString();
+                var q3=parseFloat(k3.substr(1),10);
+                var k4= json[cyfra]["price_2018"].toString();
+                var q4=parseFloat(k4.substr(1),10);
+                var k5= json[cyfra]["price_2019"].toString();
+                var q5=parseFloat(k5.substr(1),10);
+                var k6= json[cyfra]["price_2020"].toString();
+                var q6=parseFloat(k6.substr(1),10);
+                var k7= json[cyfra]["price_now"].toString();
+                var q7=parseFloat(k7.substr(1),10);
+
+  myChart.config.data.datasets[0].data[0] = q1;
+  myChart.config.data.datasets[0].data[1] = q2;
+  myChart.config.data.datasets[0].data[2] = q3;
+  myChart.config.data.datasets[0].data[3] = q4;
+  myChart.config.data.datasets[0].data[4] = q5;
+  myChart.config.data.datasets[0].data[5] = q6;
+  myChart.config.data.datasets[0].data[6] = q7;
+  myChart.update();
+  
+  document.getElementById("myChart").style.display = "inline";
+  
+  //document.getElementById("container").style.display = "inline";
+
+  populateTest(json[cyfra]);
+
+});
+ 
+          } catch(e){
+                console.warn("error");
+            }
+        };
+        
+        request.send();
+        
+    }
+
+    function populateTest(row) {
+        document.getElementById("tabela").style.display = "";
+        const tr = document.createElement("tr");
+            for (const [key,value] of Object.entries(row)){
+                console.log(key, value);
+                const td = document.createElement('td');
+                td.textContent = value;
+                tr.appendChild(td);
+            }
+            // row.forEach((x,y) => {
+            //     console.log(cell)
+            // });
+           testBody.appendChild(tr);
+           //testBody.insertAdjacentHTML("beforeBegin", html);
+           //insertAdjacentHTML(where, html);
+    }
+
+    loadData();
+    </script>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+
+</html>

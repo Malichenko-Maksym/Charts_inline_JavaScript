@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- chart.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- jquery-->
+    <title>API Project</title>
+</head>
+<body>
+    <header>
+        <h1>API Project</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><b>Home</b></a></li>
+                <li><a href="linechart.html">Line Chart</a></li>
+                <li><a href="barchart.html">Bar Chart</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="what_is">
+            <p><b>Chart.js</b> Chart.js is a free open-source JavaScript library for dat
+                a visualization, which supports 8 chart types: bar, line, area, 
+                pie (doughnut), bubble, radar, polar, and scatter. 
+                Created by London-based web developer Nick Downie in 2013, 
+                now it is maintained by the community and is the second 
+                most popular JS charting library on GitHub by the number of stars 
+                after D3.js, considered significantly easier to use though less 
+                customizable than the latter. Chart.js renders in HTML5 canvas 
+                and is widely covered as one of the best data visualization libraries. </p>
+            <img src="chart.png" alt="chart">
+        </div>
+
+        <table id="tabela">
+            <tr>
+                <th>ID</th>
+                <th>Codename</th>
+                <th>Name</th>
+                <th>Active substance</th>
+                <th>Company</th>
+                <th>Current price</th>
+                <th>Price in 2020</th>
+                <th>Price in 2019</th>
+                <th>Price in 2018</th>
+                <th>Price in 2017</th>
+                <th>Price in 2016</th>
+                <th>Price in 2015</th>
+            </tr>
+        </table>
+        <script>
+            const testBody = document.querySelector("#tabela");
+
+            function loadData (){
+                const request = new XMLHttpRequest();
+                request.open("GET", "https://my.api.mockaroo.com/users.json?key=a8728170", true); // request from api
+                request.onload = () =>{
+                    try{
+                        const json = JSON.parse(request.responseText);
+                        populateTest(json)
+                    } catch(e){
+                        console.warn("error");
+                    }
+                };
+                request.send();
+            }
+
+            function populateTest(json) {
+                // Clear out existing data
+                // while(testBody.firstChild){
+                //    testBody.removeChild(testBody.firstChild);
+                //}
+
+                
+                json.forEach((row) => {
+                    console.log(row)
+                    const tr = document.createElement("tr");
+
+                    for (const [key,value] of Object.entries(row)){
+                        console.log(key, value);
+                        const td = document.createElement('td');
+                        td.textContent = value;
+                        tr.appendChild(td);
+                    }
+                    // row.forEach((x,y) => {
+                    //     console.log(cell)
+                    // });
+                    testBody.appendChild(tr);
+                });
+            }
+            document.addEventListener("DOMContentLoaded", () => {loadData();});
+    </script>
+</body>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
